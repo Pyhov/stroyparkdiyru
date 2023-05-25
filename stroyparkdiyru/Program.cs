@@ -1,2 +1,5 @@
-﻿// See https://aka.ms/new-console-template for more information
-Console.WriteLine("Hello, World!");
+﻿using stroyparkdiyru;
+
+LinkProductCollector linkProductCollector = new LinkProductCollector();
+await linkProductCollector.Start("/catalog");
+Console.ReadLine();

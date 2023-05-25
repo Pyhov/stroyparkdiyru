@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace stroyparkdiyru
 {
-    internal class GetRequest
+    public class GetRequest
     {
 
-            string BaseAddress = "https://stroyparkdiy.ru/";
+            string BaseAddress = "https://stroyparkdiy.ru";
             public string Response { get; set; }
             public async Task RunAsync(string Url)
             {

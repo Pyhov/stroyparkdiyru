@@ -9,13 +9,15 @@ using System.Threading.Tasks;
 
 namespace stroyparkdiyru
 {
+	public delegate void NewGoods(Goods goods);
+	public delegate void NewGoodes(IEnumerable<Goods> goodes);
 	public  class LinkProductCollector
 	{
 		bool running = false;
 		public async  Task Start(string StartUrl)
 		{
 			running = true;
-			Work(StartUrl);
+			await Work(StartUrl);
 		}
 		public bool Running => running;
 		async Task Work(string StartUrl)
@@ -27,10 +29,13 @@ namespace stroyparkdiyru
 				await getRequest.RunAsync(StartUrl);
 				var doc = getRequest.ToDocument();
 				var links = doc.GetCategorys();
+				doc = null;
 				Task[] tasks = new Task[links.Count];
 				for (int i = 0; i < links.Count; i++)
 				{
-					tasks[i] = DirectoryTraversal(new GetRequest(), links[i]);
+                    if (StartUrl == links[i])
+                        continue;
+                    tasks[i] = DirectoryTraversal(new GetRequest(), links[i]);
 				}
 				await Task.WhenAll(tasks);	
 			}
@@ -53,20 +58,23 @@ namespace stroyparkdiyru
 				var doc = CategoryRequest.ToDocument();
 				if (doc.HasGoods())
 				{
-					Console.WriteLine("has Goods");
+					//Console.WriteLine("has Goods");
 				}
 				else
 				{
 					var links = doc.GetCategorys();
 					foreach (var item in links)
 					{
+						if (url == item)
+							continue;
 						await DirectoryTraversal(CategoryRequest, item);
 					}
 				}
+                doc = null;
 
 
 
-			}
+            }
 			catch (Exception ex) 
 			{
 				Debug.WriteLine(url);

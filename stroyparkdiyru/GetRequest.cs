@@ -39,7 +39,8 @@ namespace stroyparkdiyru
                     }
 
                 }
-            }
+            await Task.Delay(new Random().Next(500, 1000));
+        }
         }
     
 }
